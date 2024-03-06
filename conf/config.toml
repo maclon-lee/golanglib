@@ -1,0 +1,111 @@
+[setting]
+env="dev" #运行环境  dev 开发  stage 测试 prod 生产
+
+#kafka配置
+[kafka]
+address=["127.0.0.1:9092"]
+topic="test-a"
+group="g-test-a"
+
+#rabbitmq配置#
+[rabbitmq]
+amqp="amqp://test:123456@127.0.0.1:5672"
+vHost="/"
+
+#数据库配置
+[dbs]
+#mysql 连接池的全局配置
+[dbs.mysql]
+maxLifetime=1800
+maxIdle=2
+maxOpen=100
+#sqlserver 连接池的全局配置
+[dbs.mssql]
+maxLifetime=1200
+maxIdle=2
+maxOpen=50
+[[dbs.db]]
+name="mydb"
+driver="mysql"
+str="root:123456@tcp(127.0.0.1:3306)/mydb?charset=utf8&parseTime=true&loc=Local"
+#以下为分表规则，没有分表请注释掉
+[[dbs.db.splitTables]]
+#分表的表名
+tableName="mysku"
+#分表的策略，字段和表数量(大小写一致)
+[[dbs.db.splitTables.policy]]
+column="CustomerId"
+count=0 # 分表数量 0 为无限（按字段每个值分表）原则上不要用非int字段做无限分表
+[[dbs.db.splitTables.policy]] #hashcode按8取余存到对应的表中
+column="Sku"
+count=8
+####################################分割线（多个db配置示例）#######################################
+#[[dbs.db]]
+#name="testdb"
+#driver="mssql"
+#str="server=127.0.0.1;database=dbname;user id=username;password=password;port=1433;encrypt=disable;Connect Timeout=300;"
+##以下为分表规则，没有分表请注释掉
+#[[dbs.db.splitTables]]
+##分表的表名
+#tableName="tttt"
+##分表的策略，字段和表数量(大小写一致)
+#[[dbs.db.splitTables.policy]]
+#column="CustomerID"
+#count=0 # 分表数量 0 为无限（按字段每个值分表）
+#[[dbs.db.splitTables.policy]] #Id 按4取余存到对应的表中
+#column="Id"
+#count=4
+
+[redis]
+addr="127.0.0.1:6379"
+password="123456"
+database=0
+
+[es6]
+[[es6.db]]
+name="test"
+address=["http://127.0.0.1:9200"]
+username=""
+password=""
+
+[es7]
+[[es7.db]]
+name="test"
+address=["http://127.0.0.1:9201"]
+username="test"
+password="123456"
+
+[mongo]
+[[mongo.db]]
+name="admin"
+address="mongodb://test:123456@127.0.0.1:27017/admin?retryWrites=true&w=majority"
+[[mongo.db]]
+name="test"
+address="mongodb://test:123456@127.0.0.1:27017/mymgo?retryWrites=true&w=majority"
+
+[http]
+authType=0        #0为basic验证(默认), 1为sha256验证
+isEncrypt=false   #是否传输内容AES256加密，true为针对Body内容加密，false为不加密
+#basicAuthUsername="test"
+#basicAuthUserPassword="123456"
+[[http.user]]  #多个账号配置方式
+basicAuthUsername="test"
+basicAuthUserPassword="123456"
+shaAuthKey="test"
+shaAuthSecret="2Jw74PPkxwbz7eedVtGTlM4UnMAedRHU" #与AES256密钥共用，AES256密钥长度必须为32位
+shaExpiration=0                                  #签名时效，0为不限，单位：毫秒
+
+#阿里云日志存储
+[aliyunlog]
+endpoint="cn-hangzhou.log.aliyuncs.com"   #内网：cn-hangzhou-intranet.log.aliyuncs.com
+accessKeyID="test"
+accessKeySecret="123456"
+projectName="project"
+storeName="logstore"
+
+#钉钉消息提醒
+[dingtalk]
+isOpen=true  #是否开启（且env="prod"才有效）
+url="https://oapi.dingtalk.com/robot/send?access_token=TOKEN"
+secret="密钥"
+atMobiles=["手机号"]

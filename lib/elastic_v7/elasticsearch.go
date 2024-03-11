@@ -832,7 +832,7 @@ func (etx EsContext) QueryDataById(indexs []string, documentType interface{}, do
 			etx.es.Search.WithContext(context.Background()),
 			etx.es.Search.WithIndex(indexs...),
 			etx.es.Search.WithBody(strings.NewReader(b.String())),
-			etx.es.Search.WithTrackTotalHits(true),
+			//etx.es.Search.WithTrackTotalHits(true),
 		)
 		if err != nil {
 			return nil, errors.New(fmt.Sprintf("Error getting response: %s", err))
@@ -962,7 +962,7 @@ func (etx EsContext) ScrollQuery(indexs []string, musts map[string]map[string]in
 			etx.es.Search.WithContext(context.Background()),
 			etx.es.Search.WithIndex(indexs...),
 			etx.es.Search.WithBody(strings.NewReader(b.String())),
-			etx.es.Search.WithTrackTotalHits(true),
+			//etx.es.Search.WithTrackTotalHits(true),
 			etx.es.Search.WithScroll(scroll),
 		)
 		if err != nil {
@@ -1325,7 +1325,7 @@ func (etx EsContext) CountDataByQuery(indexs []string, musts map[string]map[stri
 			etx.es.Search.WithContext(context.Background()),
 			etx.es.Search.WithIndex(indexs...),
 			etx.es.Search.WithBody(strings.NewReader(b.String())),
-			etx.es.Search.WithTrackTotalHits(false),
+			//etx.es.Search.WithTrackTotalHits(false),
 			etx.es.Search.WithSource("false"),
 		)
 		if err != nil {
@@ -1442,7 +1442,7 @@ func (etx EsContext) QueryPhraseString(indexs []string, queryString map[string]i
 			etx.es.Search.WithContext(context.Background()),
 			etx.es.Search.WithIndex(indexs...),
 			etx.es.Search.WithBody(strings.NewReader(b.String())),
-			etx.es.Search.WithTrackTotalHits(true),
+			//etx.es.Search.WithTrackTotalHits(true),
 			etx.es.Search.WithScroll(scroll),
 		)
 		if err != nil {

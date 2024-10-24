@@ -186,6 +186,19 @@ func (etx EsContext) CheckIndexExists(indexs []string) (bool, error) {
 			return false, nil
 		}
 
+		req2 := esapi7.IndicesStatsRequest{
+			Index: indexs,
+		}
+		res2, err := req2.Do(context.Background(), etx.es)
+		if err != nil {
+			return false, err
+		}
+		defer res2.Body.Close()
+
+		if res2.IsError() || res2.StatusCode != http.StatusOK {
+			return false, nil
+		}
+
 		return true, nil
 	}
 
